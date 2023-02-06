@@ -11,6 +11,7 @@ import kofre.dotted.{Dotted, DottedLattice, HasDots}
 import kofre.syntax.{PermCausalMutate, PermId}
 import kofre.time.Dots
 import loci.communicator.tcp.TCP
+import loci.communicator.ws.jetty.WS
 import loci.registry.Registry
 import replication.DataManager
 import replication.JsoniterCodecs.given
@@ -24,7 +25,8 @@ case class CliConnections(
     `tcp-connect`: Argument[String, List, Style.Named] = Argument(_.text("connections").valueName("<ip:port>")),
     `webserver-listen-port`: Argument[Int, Option, Style.Named] = Argument(_.text("webserver listen port")),
     `webserver-static-path`: Argument[Path, Option, Style.Named] = Argument(_.text("webserver static path")),
-    `northwind-path`: Argument[Path, Option, Style.Named] = Argument(_.text("northwind sqlite database path"))
+    `northwind-path`: Argument[Path, Option, Style.Named] = Argument(_.text("northwind sqlite database path")),
+    `ws-connect`: Argument[String, List, Style.Named] = Argument(_.text("connections").valueName("<ip:port>")),
 //    `random-data-time`: Argument[Long, Option, Style.Named] =
 //      Argument(_.text("add random data on a time").valueName("milliseconds"))
 )
@@ -48,6 +50,10 @@ class FbdcCli(settings: CliConnections) {
       case Array(ip, port) =>
         (ip.trim, Integer.parseInt(port))
     }.foreach((ip, port) => registry.connect(TCP(ip, port)))
+    settings.`ws-connect`.value.map { _.split(':') }.collect {
+      case Array(ip, port) =>
+        (ip.trim, Integer.parseInt(port))
+    }.foreach((ip, port) => registry.connect(WS(s"ws://$ip:$port/ws")))
     settings.`northwind-path`.value match
       case None    =>
       case Some(p) => Northwind.enableConditional(exData, p)
