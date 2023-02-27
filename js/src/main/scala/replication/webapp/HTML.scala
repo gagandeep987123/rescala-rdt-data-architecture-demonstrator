@@ -118,6 +118,20 @@ object HTML {
     exdat.latestFortune.map(f => p(f.map(_.result).getOrElse(""))).asModifier
   )
 
+  def sgxBox(exdat: FbdcExampleData, id: Id) = aside(
+    button(
+      "get sgx",
+      onclick := leftClickHandler {
+        exdat.dataManager.transform { curr =>
+          curr.modReq { reqs =>
+            reqs.enqueue(Req.SGX(id))
+          }
+        }
+      }
+    ),
+    exdat.latestSGX.map(f => p(f.map(_.result).getOrElse(""))).asModifier
+  )
+
   def northwindBox(exdat: FbdcExampleData, id: Id) =
     val ip = input().render
 

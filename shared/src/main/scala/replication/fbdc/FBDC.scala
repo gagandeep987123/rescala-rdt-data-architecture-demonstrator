@@ -27,10 +27,12 @@ enum Req:
   def executor: Id
   case Fortune(executor: Id)
   case Northwind(executor: Id, query: String)
+  case SGX(executor: Id)
 enum Res:
   def req: Req
   case Fortune(req: Req.Fortune, result: String)
   case Northwind(req: Req.Northwind, result: List[Map[String, String]])
+  case SGX(req: Req.SGX, result: String)
 
 class FbdcExampleData {
   val replicaId = Id.gen()
@@ -115,6 +117,9 @@ class FbdcExampleData {
     case res: Res.Fortune => res
   })
 
+  val latestSGX = responses.map(_.get("SGX").flatten.map(_.payload).collect {
+    case res: Res.SGX => res
+  })
 
   val latestNorthwind = responses.map(_.get("northwind").flatten.map(_.payload).collect{
     case res: Res.Northwind => res

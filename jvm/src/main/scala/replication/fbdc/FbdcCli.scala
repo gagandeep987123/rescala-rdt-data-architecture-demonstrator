@@ -57,6 +57,7 @@ class FbdcCli(settings: CliConnections) {
     settings.`northwind-path`.value match
       case None    =>
       case Some(p) => Northwind.enableConditional(exData, p)
+    SGX.enableConditional(exData)
     Fortunes.enableConditional(exData)
   end start
 
