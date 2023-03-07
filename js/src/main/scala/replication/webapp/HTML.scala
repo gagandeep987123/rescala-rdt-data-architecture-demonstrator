@@ -94,8 +94,12 @@ object HTML {
           section(
             header(h2("Executor:", Id.unwrap(id))),
             provided.elements.iterator.map {
+              case "SGX"     => sgxBox(exdat, id)
               case "fortune" => fortuneBox(exdat, id)
-              case other     => northwindBox(exdat, id)
+              case "northwind"     => northwindBox(exdat, id)
+              case other =>
+                dom.window.alert(s"received unknown provider $other")
+                throw IllegalStateException(s"unknown provider $other")
             }.toList
           ).asInstanceOf[TypedTag[Element]]
         }.toList
@@ -148,16 +152,17 @@ object HTML {
         }
       ),
       p(
-      table(
-        exdat.latestNorthwind.map {
-          case None => Nil
-          case Some(res) =>
-            val keys = res.result.head.keys.toList.sorted
-            thead(keys.map(th(_)).toList: _*) ::
-            res.result.map { row =>
-              tr(keys.map(k => td(row(k))))
-            }
-        }.asModifierL
+        table(
+          exdat.latestNorthwind.map {
+            case None => Nil
+            case Some(res) =>
+              val keys = res.result.head.keys.toList.sorted
+              thead(keys.map(th(_)).toList: _*) ::
+              res.result.map { row =>
+                tr(keys.map(k => td(row(k))))
+              }
+          }.asModifierL
+        )
       )
-    ))
+    )
 }
