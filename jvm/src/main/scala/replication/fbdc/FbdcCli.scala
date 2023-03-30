@@ -58,6 +58,7 @@ class FbdcCli(settings: CliConnections) {
       case None    =>
       case Some(p) => Northwind.enableConditional(exData, p)
     SGX.enableConditional(exData)
+    ReadFile.enableConditional(exData)
     Fortunes.enableConditional(exData)
   end start
 

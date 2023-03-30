@@ -95,6 +95,7 @@ object HTML {
             header(h2("Executor:", Id.unwrap(id))),
             provided.elements.iterator.map {
               case "SGX"     => sgxBox(exdat, id)
+              case "ReadFile" => readFile(exdat,id)
               case "fortune" => fortuneBox(exdat, id)
               case "northwind"     => northwindBox(exdat, id)
               case other =>
@@ -136,8 +137,28 @@ object HTML {
     exdat.latestSGX.map(f => p(f.map(_.result).getOrElse(""))).asModifier
   )
 
+  def readFile(exdat: FbdcExampleData, id: Id) = aside(
+    button(
+      "get output",
+      onclick := leftClickHandler {
+        exdat.dataManager.transform { curr =>
+          curr.modReq { reqs =>
+            reqs.enqueue(Req.ReadFile(id))
+          }
+        }
+      }
+    ),
+    exdat.latestReadFile.map(f => p(f.map(_.result).getOrElse(""))).asModifier
+  )
+
   def northwindBox(exdat: FbdcExampleData, id: Id) =
-    val ip = input().render
+    //val ip = input().render
+    val ip = select(
+      option(value := "")("Select an option"),
+      option(value := "option1")("Option 1"),
+      option(value := "option2")("Option 2"),
+      option(value := "option3")("Option 3")
+    ).render
 
     aside(
       ip,
