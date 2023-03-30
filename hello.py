@@ -25,5 +25,5 @@ else:
     print("starting a process")
     pid = os.fork()
     if pid == 0:
-        subprocess.run(["Python3", "tensecwait.py"])
+        subprocess.run(["python3", "tensecwait.py"])
     
