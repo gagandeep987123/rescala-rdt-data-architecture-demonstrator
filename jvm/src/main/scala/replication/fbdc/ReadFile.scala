@@ -10,7 +10,7 @@ object ReadFile {
   def enableConditional(exampleData: FbdcExampleData) = {
     // adapt for other requirements
     if Files.exists(Paths.get("hello.py")) &&
-      Files.exists(Paths.get("readFile.py")) &&
+      //Files.exists(Paths.get("readFile.py")) &&
       process"which python3".runResult().isRight
     then
       println(s"enabling Read Box")
