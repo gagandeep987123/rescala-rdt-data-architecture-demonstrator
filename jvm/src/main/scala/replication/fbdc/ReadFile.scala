@@ -35,6 +35,6 @@ object ReadFile {
     }
 
   def processReadFile(r: Req.ReadFile) =
-    Res.ReadFile(r, Files.readString(Paths.get("results")))
+    Res.ReadFile(r, Files.readString(Paths.get("../sgx4ml-python/results")))
 
 }

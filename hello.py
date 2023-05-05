@@ -1,4 +1,4 @@
-import subprocess, os, psutil
+import subprocess, os, psutil,sys
 
 
 # pid = os.fork()
@@ -19,11 +19,20 @@ def is_program_running(program_name):
     return False
 
 
-if is_program_running("tensecwait.py"):
-    print("Program is running")
-else:
-    print("starting a process")
-    pid = os.fork()
-    if pid == 0:
-        subprocess.run(["python3", "tensecwait.py"])
+if __name__ == "__main__":
+    model_in = sys.argv[1]
+    threads = sys.argv[2]
+    batch_size = sys.argv[3]
+    sgx_flag = sys.argv[4]
+    if is_program_running("./call_parent.sh"):
+        print("Program is running")
+    else:
+        print("starting a process")
+
+        #subprocess.run(["rm","nohup.out"])
+        result = subprocess.Popen(["setsid", "./call_parent.sh",model_in,threads,batch_size,sgx_flag], preexec_fn=os.setsid,#">/dev/null","2>/dev/null","</dev/null"],
+            stdout = subprocess.PIPE,
+            stderr=subprocess.PIPE)
+        #result.detach() 
+
     

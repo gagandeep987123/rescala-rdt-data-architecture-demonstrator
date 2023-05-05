@@ -28,7 +28,7 @@ enum Req:
   def executor: Id
   case Fortune(executor: Id)
   case Northwind(executor: Id, query: String)
-  case SGX(executor: Id)
+  case SGX(executor: Id,model: String, thread:String, batchsize:String, sgxsecurity:String)
   case ReadFile(executor: Id)
 enum Res:
   def req: Req

@@ -123,19 +123,56 @@ object HTML {
     exdat.latestFortune.map(f => p(f.map(_.result).getOrElse(""))).asModifier
   )
 
-  def sgxBox(exdat: FbdcExampleData, id: Id) = aside(
-    button(
-      "get sgx",
-      onclick := leftClickHandler {
-        exdat.dataManager.transform { curr =>
-          curr.modReq { reqs =>
-            reqs.enqueue(Req.SGX(id))
+  def sgxBox(exdat: FbdcExampleData, id: Id) =
+    val dropdownLabel_model = label(`for` := "model")("Model : ").render
+    val model = select(
+      //option(value := "")("Select an option"),
+      option(value := "mlp")("mlp")
+      //option(value := "option2")("Option 2"),
+      //option(value := "option3")("Option 3")
+    ).render
+    val dropdownLabel_threads = label(`for` := "thread")("thread : ").render
+    val thread = select(
+      option(value := "1")("1"),
+      option(value := "16")("16")
+    ).render
+    val dropdownLabel_batchsize = label(`for` := "batchsize")("batchsize : ").render
+    val batchsize = select(
+      //option(value := "")("Select an option"),
+      option(value := "1")("1")
+      //option(value := "option2")("Option 2"),
+      //option(value := "option3")("Option 3")
+    ).render
+    val dropdownLabel_sgxsecurity = label(`for` := "sgx security")("sgxsecurity : ").render
+    val sgxsecurity = select(
+      //option(value := "")("Select an option"),
+      option(value := "1")("enabled"),
+      option(value := "0")("disabled")
+      //option(value := "option3")("Option 3")
+    ).render
+
+    aside(
+      dropdownLabel_model,
+      model,
+      dropdownLabel_threads,
+      thread,
+      dropdownLabel_batchsize,
+      batchsize,
+      dropdownLabel_sgxsecurity,
+      sgxsecurity,
+      button(
+        "get sgx",
+        onclick := leftClickHandler {
+          exdat.dataManager.transform { curr =>
+            curr.modReq { reqs =>
+              reqs.enqueue(Req.SGX(id,model.value,thread.value,batchsize.value,sgxsecurity.value))
+            }
           }
         }
-      }
-    ),
-    exdat.latestSGX.map(f => p(f.map(_.result).getOrElse(""))).asModifier
-  )
+      ),
+      exdat.latestSGX.map(f => p(f.map(_.result).getOrElse(""))).asModifier
+    )
+
 
   def readFile(exdat: FbdcExampleData, id: Id) = aside(
     button(
@@ -152,13 +189,7 @@ object HTML {
   )
 
   def northwindBox(exdat: FbdcExampleData, id: Id) =
-    //val ip = input().render
-    val ip = select(
-      option(value := "")("Select an option"),
-      option(value := "option1")("Option 1"),
-      option(value := "option2")("Option 2"),
-      option(value := "option3")("Option 3")
-    ).render
+    val ip = input().render
 
     aside(
       ip,
