@@ -1,5 +1,7 @@
 # SafeFBDC Programmable Architecture Example Application
 
+This project is forked from the [github project](https://github.com/safeFBDC-TU-Darmstadt/rescala-rdt-data-architecture-demonstrator) and is intended to use along with the project - [sgx4ml-Python-priv](https://github.com/gagandeep987123/sgx4ml-Python-priv) which should be cloned in the same directory as this project.
+
 As discussed in the HAP1 architecture document, there are multiple possible communication architectures viable for data safe data processing. Which architecture to use, depends on the chosen organization structure and operational constraints.
 
 This case study demonstrates how the REScala project and replicated data types can be used to design an interactive application that makes use of one or more services within an arbitrary ad-hoc network. The services available for demonstration are deliberately simple as the focus is on the flexible design of the network communication.
