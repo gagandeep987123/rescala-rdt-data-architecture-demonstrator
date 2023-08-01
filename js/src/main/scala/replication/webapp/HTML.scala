@@ -126,10 +126,14 @@ object HTML {
   def sgxBox(exdat: FbdcExampleData, id: Id) =
     val dropdownLabel_model = label(`for` := "model")("Model : ").render
     val model = select(
-      //option(value := "")("Select an option"),
-      option(value := "mlp")("mlp")
-      //option(value := "option2")("Option 2"),
-      //option(value := "option3")("Option 3")
+      option(value := "mlp")("mlp"),
+      option(value := "cnn")("cnn"),
+      option(value := "alex")("alex"),
+      option(value := "alex_simple")("alex_simple"),
+      option(value := "vgg16")("vgg16"),
+      option(value := "vgg19")("vgg19"),
+      option(value := "large_mlp1")("large_mlp1"),
+      option(value := "large_mlp2")("large_mlp2")
     ).render
     val dropdownLabel_threads = label(`for` := "thread")("thread : ").render
     val thread = select(
@@ -138,17 +142,12 @@ object HTML {
     ).render
     val dropdownLabel_batchsize = label(`for` := "batchsize")("batchsize : ").render
     val batchsize = select(
-      //option(value := "")("Select an option"),
       option(value := "1")("1")
-      //option(value := "option2")("Option 2"),
-      //option(value := "option3")("Option 3")
     ).render
     val dropdownLabel_sgxsecurity = label(`for` := "sgx security")("sgxsecurity : ").render
     val sgxsecurity = select(
-      //option(value := "")("Select an option"),
       option(value := "1")("enabled"),
       option(value := "0")("disabled")
-      //option(value := "option3")("Option 3")
     ).render
 
     aside(
