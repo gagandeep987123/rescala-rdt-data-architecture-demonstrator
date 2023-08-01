@@ -29,10 +29,8 @@ if __name__ == "__main__":
     else:
         print("starting a process")
 
-        #subprocess.run(["rm","nohup.out"])
-        result = subprocess.Popen(["setsid", "./call_parent.sh",model_in,threads,batch_size,sgx_flag], preexec_fn=os.setsid,#">/dev/null","2>/dev/null","</dev/null"],
-            stdout = subprocess.PIPE,
-            stderr=subprocess.PIPE)
-        #result.detach() 
-
-    
+        cmd = ["setsid", "./call_parent.sh",model_in,threads,batch_size,sgx_flag]
+        result = subprocess.Popen(cmd, preexec_fn=os.setsid,#">/dev/null","2>/dev/null","</dev/null"],
+            stdout = subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL)
+        
